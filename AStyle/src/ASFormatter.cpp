@@ -192,6 +192,8 @@ void ASFormatter::init(ASSourceIterator* si)
 	methodAttachLineNum = 0;
 	methodBreakCharNum = string::npos;
 	methodBreakLineNum = 0;
+	methodReturnTypeEndCharNum = string::npos;
+	methodReturnTypeEndLineNum = 0;
 	nextLineSpacePadNum = 0;
 	objCColonAlign = 0;
 	templateDepth = 0;
@@ -1051,6 +1053,8 @@ string ASFormatter::nextLine()
 				methodBreakLineNum = 0;
 				methodAttachCharNum = string::npos;
 				methodAttachLineNum = 0;
+				methodReturnTypeEndCharNum = string::npos;
+				methodReturnTypeEndLineNum = 0;
 
 				isPreviousBraceBlockRelated = !isBraceType(newBraceType, ARRAY_TYPE);
 				braceTypeStack->emplace_back(newBraceType);
@@ -1580,22 +1584,15 @@ string ASFormatter::nextLine()
 			            || isBraceType(braceTypeStack->back(), DEFINITION_TYPE)))
 				foundTrailingReturnType = true;
 
-			// check for break/attach return type
+			// check for break/attach return type and alignment pointer or reference to name
 			if (shouldBreakReturnType || shouldBreakReturnTypeDecl
-			        || shouldAttachReturnType || shouldAttachReturnTypeDecl)
+			        || shouldAttachReturnType || shouldAttachReturnTypeDecl
+					|| pointerAlignment == PTR_ALIGN_NAME || referenceAlignment == REF_ALIGN_NAME)
 			{
-				if ((isBraceType(braceTypeStack->back(), NULL_TYPE)
-				        || isBraceType(braceTypeStack->back(), DEFINITION_TYPE))
-				        && !returnTypeChecked
-				        && !foundNamespaceHeader
-				        && !foundClassHeader
-				        && !isInObjCMethodDefinition
-				        // bypass objective-C and java @ character
+				if (isBraceType(braceTypeStack->back(), NULL_TYPE, DEFINITION_TYPE)
+						&& !returnTypeChecked && !foundNamespaceHeader && !foundClassHeader && !isInObjCMethodDefinition // bypass objective-C and java @ character
 				        && charNum == (int) currentLine.find_first_not_of(" \t")
-				        && !(isCStyle() && isCharPotentialHeader(currentLine, charNum)
-				             && (findKeyword(currentLine, charNum, AS_PUBLIC)
-				                 || findKeyword(currentLine, charNum, AS_PRIVATE)
-				                 || findKeyword(currentLine, charNum, AS_PROTECTED))))
+				        && !(isCStyle() && isCharPotentialHeader(currentLine, charNum) && findKeyword(currentLine, charNum, AS_PUBLIC, AS_PRIVATE, AS_PROTECTED)))
 				{
 					findReturnTypeSplitPoint(currentLine);
 					returnTypeChecked = true;
@@ -1939,8 +1936,13 @@ bool ASFormatter::hasMoreLines() const
 bool ASFormatter::isBraceType(BraceType a, BraceType b) const
 {
 	if (a == NULL_TYPE || b == NULL_TYPE)
-		return (a == b);
-	return ((a & b) == b);
+		return a == b;
+	return (a & b) == b;
+}
+
+bool ASFormatter::isBraceType(BraceType src, BraceType dst, BraceType dst2) const
+{
+	return isBraceType(src, dst) || isBraceType(src, dst2);
 }
 
 /**
@@ -2645,6 +2647,8 @@ bool ASFormatter::getNextLine(bool emptyLineWasDeleted /*false*/)
 		--methodBreakLineNum;
 	if (methodAttachLineNum > 0)
 		--methodAttachLineNum;
+	if (methodReturnTypeEndLineNum > 0)
+		--methodReturnTypeEndLineNum;
 
 	// unless reading in the first line of the file, break a new line.
 	if (!isVirgin)
@@ -4139,6 +4143,17 @@ void ASFormatter::formatPointerOrReference()
 		spacePadNum--;
 	}
 
+	// fixed. for the ones align to name, if no name are assign to ptr type, align to type
+	if (itemAlignment == PTR_ALIGN_NAME) {
+		// TODO 1. if is function return type
+		assert(returnTypeChecked);
+		if (methodReturnTypeEndCharNum != string::npos && methodReturnTypeEndLineNum == 0)
+		{
+			if (charNum < methodReturnTypeEndCharNum)	// pointer or reference belong to return type
+				itemAlignment = PTR_ALIGN_TYPE;
+		}
+	}
+
 	if (itemAlignment == PTR_ALIGN_TYPE)
 	{
 		formatPointerOrReferenceToType();
@@ -4478,6 +4493,10 @@ void ASFormatter::formatPointerOrReferenceCast()
 	int ra = referenceAlignment;
 	int itemAlignment = (currentChar == '*' || currentChar == '^')
 	                    ? pa : ((ra == REF_SAME_AS_PTR) ? pa : ra);
+
+	// fixed: for alignment to name, cast should always alignment to type
+	if (itemAlignment == PTR_ALIGN_NAME)
+		itemAlignment = PTR_ALIGN_TYPE;
 
 	string sequenceToInsert(1, currentChar);
 	if (isSequenceReached("**") || isSequenceReached("&&"))
@@ -6564,29 +6583,37 @@ size_t ASFormatter::findNextChar(const string& line, char searchChar, int search
 }
 
 /**
- * Find split point for break/attach return type.
+ * Find split point for break/attach return type and alignment pointer or reference to name.
  */
 void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 {
 	assert((isBraceType(braceTypeStack->back(), NULL_TYPE)
 	        || isBraceType(braceTypeStack->back(), DEFINITION_TYPE)));
 	assert(shouldBreakReturnType || shouldBreakReturnTypeDecl
-	       || shouldAttachReturnType || shouldAttachReturnTypeDecl);
+			|| shouldAttachReturnType || shouldAttachReturnTypeDecl
+			|| pointerAlignment == PTR_ALIGN_NAME || referenceAlignment == REF_ALIGN_NAME);
 
-	bool isFirstLine     = true;
-	bool isInComment_    = false;
-	bool isInQuote_      = false;
-	bool foundSplitPoint = false;
-	bool isAlreadyBroken = false;
-	char quoteChar_      = ' ';
-	char currNonWSChar   = ' ';
-	char prevNonWSChar   = ' ';
-	size_t parenCount    = 0;
-	size_t squareCount   = 0;
-	size_t angleCount    = 0;
-	size_t breakLineNum  = 0;
-	size_t breakCharNum  = string::npos;
-	string line          = firstLine;
+	bool isFirstLine					= true;
+	bool isInComment_					= false;
+	bool isInQuote_						= false;
+	bool isVariableInit					= false;
+	bool foundSplitPoint				= false;
+	bool foundLeftParanAfterBreakChar	= false;
+	bool foundRightParanAfterBreakChar	= false;
+	bool isAlreadyBroken				= false;
+	char quoteChar_						= ' ';
+	char currNonWSChar					= ' ';
+	char prevNonWSChar					= ' ';
+	size_t parenCount					= 0;
+	size_t squareCount					= 0;
+	size_t angleCount					= 0;
+	size_t breakLineNum					= 0;
+	size_t breakCharNum					= string::npos;
+	//size_t leftParanLineNum				= 0;
+	//size_t leftParanCharNum				= string::npos;
+	//size_t rightParanLineNum			= 0;
+	//size_t rightParanCharNum			= string::npos;
+	string line							= firstLine;
 
 	// Process the lines until a ';' or '{'.
 	ASPeekStream stream(sourceIterator);
@@ -6681,6 +6708,7 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 						if (nextCharNum == string::npos)
 						{
 							breakCharNum  = string::npos;
+							foundLeftParanAfterBreakChar = false;
 							continue;
 						}
 						if (line[nextCharNum] != ':')		// scope operator
@@ -6708,14 +6736,20 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 				{
 					size_t nextNum = line.find_first_not_of(" \t", i + 1);
 					if (nextNum == string::npos)
+					{
 						breakCharNum = string::npos;
+						foundLeftParanAfterBreakChar = false;
+					}
 					else
 					{
 						if (line.length() > nextNum + 1
 						        && line[nextNum] == ':' && line[nextNum + 1] == ':')
 							i = --nextNum;
 						else if (line[nextNum] != '(')
+						{
 							breakCharNum = string::npos;
+							foundLeftParanAfterBreakChar = false;
+						}
 					}
 					continue;
 				}
@@ -6777,17 +6811,25 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 					// is line is already broken?
 					if (breakCharNum == firstCharNum && breakLineNum > 0)
 						isAlreadyBroken = true;
+					foundLeftParanAfterBreakChar = breakCharNum != string::npos && (!parenCount || foundLeftParanAfterBreakChar);
 					++parenCount;
 					foundSplitPoint = true;
 					continue;
 				}
 			}
+
 			// end !foundSplitPoint
 			if (line[i] == '(')
 			{
 				// consecutive ')(' parens is probably a function pointer
 				if (prevNonWSChar == ')' && !parenCount)
 					return;
+				//if (breakCharNum != string::npos && (!parenCount || foundLeftParanAfterBreakChar))
+				//{
+				//	leftParanLineNum = breakLineNum;
+				//	leftParanCharNum = breakCharNum;
+				//}
+				foundLeftParanAfterBreakChar = breakCharNum != string::npos && (!parenCount || foundLeftParanAfterBreakChar);
 				++parenCount;
 				continue;
 			}
@@ -6795,8 +6837,15 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 			{
 				if (parenCount)
 					--parenCount;
+				//if (breakCharNum != string::npos && leftParanCharNum != string::npos && (!parenCount || foundLeftParanAfterBreakChar))
+				//{
+				//	rightParanLineNum = breakLineNum;
+				//	rightParanCharNum = breakCharNum;
+				//}
+				foundRightParanAfterBreakChar = breakCharNum != string::npos && foundLeftParanAfterBreakChar && (!parenCount || foundRightParanAfterBreakChar);;
 				continue;
 			}
+
 			if (line[i] == '{')
 			{
 				if (shouldBreakReturnType && foundSplitPoint && !isAlreadyBroken)
@@ -6808,6 +6857,14 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 				{
 					methodAttachCharNum = breakCharNum;
 					methodAttachLineNum = breakLineNum;
+				}
+				if (pointerAlignment == PTR_ALIGN_NAME || referenceAlignment == REF_ALIGN_NAME)
+				{
+					if (foundLeftParanAfterBreakChar && foundRightParanAfterBreakChar)
+					{
+						methodReturnTypeEndCharNum = breakCharNum;
+						methodReturnTypeEndLineNum = breakLineNum;
+					}
 				}
 				return;
 			}
@@ -6823,13 +6880,24 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 					methodAttachCharNum = breakCharNum;
 					methodAttachLineNum = breakLineNum;
 				}
+				if (pointerAlignment == PTR_ALIGN_NAME || referenceAlignment == REF_ALIGN_NAME)
+				{
+					if (foundLeftParanAfterBreakChar && foundRightParanAfterBreakChar)
+					{
+						methodReturnTypeEndCharNum = breakCharNum;
+						methodReturnTypeEndLineNum = breakLineNum;
+					}
+				}
 				return;
 			}
 			if (line[i] == '}')
 				return;
 		}   // end of for loop
 		if (!foundSplitPoint)
+		{
 			breakCharNum = string::npos;
+			foundLeftParanAfterBreakChar = false;
+		}
 	}   // end of while loop
 }
 
@@ -7966,6 +8034,8 @@ void ASFormatter::resetEndOfStatement()
 	isInExternC = false;
 	elseHeaderFollowsComments = false;
 	returnTypeChecked = false;
+	methodReturnTypeEndCharNum = string::npos;
+	methodReturnTypeEndLineNum = 0;
 	nonInStatementBrace = 0;
 	while (!questionMarkStack->empty())
 		questionMarkStack->pop_back();

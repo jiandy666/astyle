@@ -36,15 +36,71 @@ string getProjectDirectory(const string& subPath);
 char* getText(const string& filePath);
 void setText(const char* textOut, const string& filePathStr);
 
+#include <cassert>
+void test() {
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char* bar;\n"
+		"    const char	* bar;\n"
+		"    const char *bar;\n"
+		"    const char  *  bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const char	*bar;\n"
+		"    const char *bar;\n"
+		"    const char *bar;\n"
+		"    const char    *bar;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, ASErrorHandler, ASMemoryAlloc);
+	assert(strcmp(textOut, text) == 0);
+	delete[] textOut;
+}
+
+
+// test for
+//   when alignment pointer or reference to name,
+//   aligment these to type when no var name provided,
+//   e.g.
+//       function return type
+//       variable cast
+void test1()
+{
+	char textIn[] =
+		"char  *  num;\n"
+		"char    &num;\n"
+		"char*    num;\n"
+		"char&    function();\n"
+		"char  *  function();\n"
+		"char    &function();\n"
+		"char    *function() {\n"
+		"\n"
+		"}"
+		"vector<const string *> haha;";
+	char options[] = "k3";
+	char *textOut = AStyleMain(textIn, options, ASErrorHandler, ASMemoryAlloc);
+	cout << textOut << endl;
+	delete textOut;
+	exit(0);
+}
+
 
 // Main function for this example.
 int main(int, char**)
-{   // options to pass to AStyle
+{
+	test1();
+	test();
+
+	// options to pass to AStyle
     const string fileName[] = { "AStyleDev/test-data/ASBeautifier.cpp",
-                                "AStyleDev/test-data/ASFormatter.cpp",
-                                "AStyleDev/test-data/astyle.h"
+                                //"AStyleDev/test-data/ASFormatter.cpp",
+                                //"AStyleDev/test-data/astyle.h"
                               };
-    const char* options = "-A2tOP";
+    //const char* options = "-A2tOP";
+    const char* options = "-A1tNpxgHk3xjOoxC200";
     size_t arraySize = sizeof(fileName) / sizeof(fileName[0]);
 
     // get Artistic Style version
@@ -112,7 +168,7 @@ string getProjectDirectory(const string& subPath)
 #endif
     if (!homeDirectory)
         error("Cannot find HOME directory");
-    string projectPath = string(homeDirectory) + "/Projects/" + subPath;
+    string projectPath = string(homeDirectory) + "/Source/astyle-code/" + subPath;
     return projectPath;
 }
 

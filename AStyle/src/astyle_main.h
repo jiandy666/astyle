@@ -129,11 +129,10 @@ private:
 	bool prevLineDeleted;   // the previous input line was deleted
 
 public:	// inline functions
-	bool compareToInputBuffer(const string& nextLine_) const
-	{ return (nextLine_ == prevBuffer); }
-	const string& getOutputEOL() const { return outputEOL; }
-	streamoff getPeekStart() const override { return peekStart; }
-	bool hasMoreLines() const override { return !inStream->eof(); }
+	bool compareToInputBuffer(const string& nextLine_) const	{ return (nextLine_ == prevBuffer); }
+	const string& getOutputEOL() const							{ return outputEOL; }
+	streamoff getPeekStart() const override						{ return peekStart; }
+	bool hasMoreLines() const override							{ return !inStream->eof(); }
 };
 
 //----------------------------------------------------------------------------

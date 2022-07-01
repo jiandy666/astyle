@@ -303,16 +303,19 @@ protected:
 	ASBase() = default;
 
 protected:  // inline functions
-	void init(int fileTypeArg) { baseFileType = fileTypeArg; }
-	bool isCStyle() const { return (baseFileType == C_TYPE); }
-	bool isJavaStyle() const { return (baseFileType == JAVA_TYPE); }
-	bool isSharpStyle() const { return (baseFileType == SHARP_TYPE); }
-	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
+	void init(int fileTypeArg)			{ baseFileType = fileTypeArg; }
+	bool isCStyle() const				{ return (baseFileType == C_TYPE); }
+	bool isJavaStyle() const			{ return (baseFileType == JAVA_TYPE); }
+	bool isSharpStyle() const			{ return (baseFileType == SHARP_TYPE); }
+	bool isWhiteSpace(char ch) const	{ return (ch == ' ' || ch == '\t'); }
 
 protected:  // functions definitions are at the end of ASResource.cpp
 	const string* findHeader(const string& line, int i,
 	                         const vector<const string*>* possibleHeaders) const;
+
 	bool findKeyword(const string& line, int i, const string& keyword) const;
+	bool findKeyword(const string& line, int i, const string& keyword1, const string& keyword2, const string& keyword3) const;
+
 	const string* findOperator(const string& line, int i,
 	                           const vector<const string*>* possibleOperators) const;
 	string getCurrentWord(const string& line, size_t index) const;
@@ -747,6 +750,7 @@ private:  // functions
 	bool isBeforeAnyLineEndComment(int startPos) const;
 	bool isBeforeMultipleLineEndComments(int startPos) const;
 	bool isBraceType(BraceType a, BraceType b) const;
+	bool isBraceType(BraceType src, BraceType dst, BraceType dst2) const;
 	bool isClassInitializer() const;
 	bool isClosingHeader(const string* header) const;
 	bool isCurrentBraceBroken() const;
@@ -891,6 +895,8 @@ private:  // variables
 	size_t methodAttachLineNum;
 	size_t methodBreakCharNum;
 	size_t methodBreakLineNum;
+	size_t methodReturnTypeEndCharNum;
+	size_t methodReturnTypeEndLineNum;
 
 	// possible split points
 	size_t maxSemi;			// probably a 'for' statement
