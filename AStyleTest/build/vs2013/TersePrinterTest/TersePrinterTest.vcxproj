@@ -82,7 +82,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -103,7 +103,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -121,7 +121,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -143,7 +143,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

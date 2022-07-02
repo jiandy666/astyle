@@ -82,7 +82,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -102,7 +102,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -119,7 +119,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -142,7 +142,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest;..\..\..\..\googlemock\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

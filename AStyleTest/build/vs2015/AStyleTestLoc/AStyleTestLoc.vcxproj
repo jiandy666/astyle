@@ -130,7 +130,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -152,7 +152,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -175,7 +175,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -197,7 +197,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -223,7 +223,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -244,7 +244,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>

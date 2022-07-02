@@ -89,7 +89,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -106,7 +106,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -124,7 +124,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\googlemock\src\gmock-all.cc" />
-    <ClCompile Include="..\..\..\..\googletest\src\gtest-all.cc" />
+    <ClCompile Include="..\..\..\..\3rd\googletest\googletest\src\gtest-all.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -88,7 +88,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -103,7 +103,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -119,7 +119,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\3rd\googletest\googletest\include;..\..\..\..\3rd\googletest\googletest</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -144,7 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\googletest\src\gtest-all.cc" />
+    <ClCompile Include="..\..\..\..\3rd\googletest\googletest\src\gtest-all.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
